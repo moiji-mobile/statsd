@@ -18,6 +18,11 @@ StatsDClientBase >> decrement: aName rate: aRate [
 		self sendData: (self formatCounter: aName value: -1 rate: aRate)]
 ]
 
+{ #category : #'as yet unclassified' }
+StatsDClientBase >> flush [
+	"Do nothing here. Part of the 'pipeline' part"
+]
+
 { #category : #format }
 StatsDClientBase >> format: aName value: aValue rate: aRate type: aType [ 
 	^String streamContents: [:str |
