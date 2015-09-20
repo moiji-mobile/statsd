@@ -147,3 +147,24 @@ ConfigurationOfStatsDClient >> project [
 		project loadType: #linear. "change to #atomic if desired"
 		project ]
 ]
+
+{ #category : #'symbolic versions' }
+ConfigurationOfStatsDClient >> stable: spec [
+	<symbolicVersion: #'stable'>
+
+	spec for: #'common' version: '1'.
+
+]
+
+{ #category : #versions }
+ConfigurationOfStatsDClient >> version1: spec [
+	<version: '1' imports: #('0.1-baseline' )>
+
+	spec for: #'common' do: [
+		spec blessing: #'stable'.
+		spec description: 'version 1'.
+		spec author: 'HolgerHansPeterFreyther'.
+		spec timestamp: '9/20/2015 11:35'.
+		spec package: #StatsDClient with: 'StatsDClient-HolgerHansPeterFreyther.3'. ].
+
+]
