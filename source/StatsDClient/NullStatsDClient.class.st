@@ -24,6 +24,6 @@ NullStatsDClient >> set: aName value: aValue rate: aRate [
 ]
 
 { #category : #'as yet unclassified' }
-NullStatsDClient >> time: aName block: aBlock rate: aRate [
+NullStatsDClient >> time: aName rate: aRate block: aBlock [
 	aBlock value
 ]

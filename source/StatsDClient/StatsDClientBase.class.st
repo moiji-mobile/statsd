@@ -119,11 +119,16 @@ StatsDClientBase >> set: aName value: aValue rate: aRate [
 ]
 
 { #category : #api }
-StatsDClientBase >> time: aName block: aBlock rate: aRate [
-	| time |
+StatsDClientBase >> time: aName rate: aRate block: aBlock [
+	|  initialMicroseconds |
 	"We could use >>#value here but then sampled/unsampled would behave
 	differently"
-	time := aBlock timeToRun asMilliSeconds.
-	(self forwardEvent: aRate) ifTrue: [
-		self sendData: (self formatTimer: aName value: time rate: aRate)]
+	[
+		initialMicroseconds := Time microsecondClockValue.
+		^aBlock value
+	] ensure: [
+		| time |
+		time := (Time microsecondClockValue - initialMicroseconds) // 1e3.
+		(self forwardEvent: aRate) ifTrue: [
+			self sendData: (self formatTimer: aName value: time rate: aRate)]].
 ]
