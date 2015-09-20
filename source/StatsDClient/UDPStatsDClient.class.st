@@ -1,3 +1,8 @@
+"
+I am a UDP client for the statsdD protocol
+
+Set the destination hostname/port and then call start. Use the normal API for the rest of it.
+"
 Class {
 	#name : #UDPStatsDClient,
 	#superclass : #StatsDClientBase,
