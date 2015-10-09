@@ -109,6 +109,7 @@ StatsDClientBase >> initialize [
 
 { #category : #api }
 StatsDClientBase >> prefix: aPrefix [
+	prefix := aPrefix
 ]
 
 { #category : #'as yet unclassified' }
