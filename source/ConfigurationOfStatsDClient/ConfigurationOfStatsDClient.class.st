@@ -152,7 +152,7 @@ ConfigurationOfStatsDClient >> project [
 ConfigurationOfStatsDClient >> stable: spec [
 	<symbolicVersion: #'stable'>
 
-	spec for: #'common' version: '2'.
+	spec for: #'common' version: '3'.
 
 ]
 
@@ -179,5 +179,18 @@ ConfigurationOfStatsDClient >> version2: spec [
 		spec author: 'HolgerHansPeterFreyther'.
 		spec timestamp: '9/20/2015 15:29'.
 		spec package: #StatsDClient with: 'StatsDClient-HolgerHansPeterFreyther.5'. ].
+
+]
+
+{ #category : #versions }
+ConfigurationOfStatsDClient >> version3: spec [
+	<version: '3' imports: #('0.1-baseline' )>
+
+	spec for: #'common' do: [
+		spec blessing: #'stable'.
+		spec description: 'version 3'.
+		spec author: 'HolgerHansPeterFreyther'.
+		spec timestamp: '10/9/2015 20:45'.
+		spec package: #StatsDClient with: 'StatsDClient-HolgerHansPeterFreyther.6'. ].
 
 ]
