@@ -16,6 +16,10 @@ NullStatsDClient >> gauge: aName value: aValue rate: aRate [
 ]
 
 { #category : #'as yet unclassified' }
+NullStatsDClient >> increment: aName by: aCount rate: aRate [
+]
+
+{ #category : #'as yet unclassified' }
 NullStatsDClient >> increment: aName rate: aRate [
 ]
 

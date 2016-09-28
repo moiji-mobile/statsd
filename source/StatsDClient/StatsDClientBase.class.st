@@ -13,9 +13,7 @@ Class {
 
 { #category : #api }
 StatsDClientBase >> decrement: aName rate: aRate [
-
-	(self forwardEvent: aRate) ifTrue: [
-		self sendData: (self formatCounter: aName value: -1 rate: aRate)]
+	^self increment: aName by: -1 rate: aRate.
 ]
 
 { #category : #'as yet unclassified' }
@@ -94,10 +92,15 @@ StatsDClientBase >> gauge: aName value: aValue rate: aRate [
 ]
 
 { #category : #api }
-StatsDClientBase >> increment: aName rate: aRate [
+StatsDClientBase >> increment: aName by: aCount rate: aRate [
 
 	(self forwardEvent: aRate) ifTrue: [
-		self sendData: (self formatCounter: aName value: 1 rate: aRate)]
+		self sendData: (self formatCounter: aName value: aCount rate: aRate)]
+]
+
+{ #category : #api }
+StatsDClientBase >> increment: aName rate: aRate [
+	^self increment: aName by: 1 rate: aRate.
 ]
 
 { #category : #'as yet unclassified' }
