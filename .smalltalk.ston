@@ -1,0 +1,10 @@
+SmalltalkCISpec {
+  #loading : [
+      SCIMetacelloLoadSpec {
+          #baseline : 'StatsDClient',
+          #directory : 'source',
+          #platforms : [ #pharo ]
+      }
+  ]
+}
+
