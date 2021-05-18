@@ -31,7 +31,9 @@ StatsDClientBase >> format: aName value: aValue rate: aRate type: aType [
 			nextPutAll: aType.
 		aRate < 1 ifTrue: [
 			"Formating a float is expensive. So maybe have a look for standard values"
+			"chrisT :  | was missing in this case"
 			str
+				nextPut: $|;
 				nextPut: $@;
 				nextPutAll: aRate asString.
 		]]
