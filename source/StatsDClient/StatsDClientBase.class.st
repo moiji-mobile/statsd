@@ -244,7 +244,7 @@ StatsDClientBase >> increment: aName by: aCount rate: aRate [
 		self sendData: (self formatCounter: aName value: aCount rate: aRate)]
 ]
 
-{ #category : #api }
+{ #category : #Tags }
 StatsDClientBase >> increment: aName by: aCount rate: aRate withTags: aDictionary [
 	"Adding tags to the statistics generation
 	Argument added : aDictionary.
@@ -265,7 +265,7 @@ StatsDClientBase >> increment: aName rate: aRate [
 	^self increment: aName by: 1 rate: aRate.
 ]
 
-{ #category : #api }
+{ #category : #Tags }
 StatsDClientBase >> increment: aName rate: aRate withTags: aDictionary [
 	"Adding tags to the statistics generation
 	Argument added : aDictionary.
