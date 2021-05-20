@@ -31,10 +31,48 @@ StatsDClientBase >> format: aName value: aValue rate: aRate type: aType [
 			nextPutAll: aType.
 		aRate < 1 ifTrue: [
 			"Formating a float is expensive. So maybe have a look for standard values"
+			"chrisT :  | was missing in this case"
 			str
+				nextPut: $|;
 				nextPut: $@;
 				nextPutAll: aRate asString.
 		]]
+]
+
+{ #category : #Tags }
+StatsDClientBase >> format: aName value: aValue rate: aRate type: aType withTags: aDictionary [
+	"Adding tags to the statistics generation
+	Argument added : aDictionary.
+	Tags are expressed under a key-value form"
+
+	| keys |
+	^ String
+		streamContents: [ :str | 
+			str
+				nextPutAll: prefix;
+				nextPutAll: aName;
+				nextPut: $:;
+				nextPutAll: aValue;
+				nextPut: $|;
+				nextPutAll: aType.
+			aRate < 1
+				ifTrue: [ "Formating a float is expensive. So maybe have a look for standard values"
+					str
+						nextPut: $|;
+						nextPut: $@;
+						nextPutAll: aRate asString ].
+			aDictionary isEmpty
+				ifFalse: [ str
+						nextPut: $|;
+						nextPut: $# ].
+			1 to: (keys := aDictionary keys) size do: [ :i | 
+				| key |
+				i = 1
+					ifFalse: [ str nextPut: $, ].
+				key := keys at: i.
+				str nextPutAll: key.
+				str nextPut: $:.
+				str nextPutAll: (aDictionary at: key) asString ] ]
 ]
 
 { #category : #format }
@@ -47,6 +85,33 @@ StatsDClientBase >> formatCounter: aCounterName value: aValue rate: aRate [
 	^self format: aCounterName value: aValue asString rate: aRate type: 'c'
 ]
 
+{ #category : #Tags }
+StatsDClientBase >> formatCounter: aCounterName value: aValue rate: aRate withTags: aDictionary [
+	"Adding tags to the statistics generation
+	Argument added : aDictionary.
+	Tags are expressed under a key-value form"
+
+	^ self
+		format: aCounterName
+		value: aValue asString
+		rate: aRate
+		type: 'c'
+		withTags: aDictionary
+]
+
+{ #category : #Tags }
+StatsDClientBase >> formatCounter: aCounterName value: aValue withTags: aDictionary [
+	"Adding tags to the statistics generation
+	Argument added : aDictionary.
+	Tags are expressed under a key-value form"
+
+	^ self
+		formatCounter: aCounterName
+		value: aValue
+		rate: 1
+		withTags: aDictionary
+]
+
 { #category : #format }
 StatsDClientBase >> formatGauge: aGaugeName value: aValue [
 	^self formatGauge: aGaugeName value: aValue rate: 1
@@ -55,6 +120,33 @@ StatsDClientBase >> formatGauge: aGaugeName value: aValue [
 { #category : #format }
 StatsDClientBase >> formatGauge: aGaugeName value: aValue rate: aRate [
 	^self format: aGaugeName value: aValue asString rate: aRate type: 'g'
+]
+
+{ #category : #Tags }
+StatsDClientBase >> formatGauge: aGaugeName value: aValue rate: aRate withTags: aDictionary [
+	"Adding tags to the statistics generation
+	Argument added : aDictionary.
+	Tags are expressed under a key-value form"
+
+	^ self
+		format: aGaugeName
+		value: aValue asString
+		rate: aRate
+		type: 'g'
+		withTags: aDictionary
+]
+
+{ #category : #Tags }
+StatsDClientBase >> formatGauge: aGaugeName value: aValue withTags: aDictionary [
+	"Adding tags to the statistics generation
+	Argument added : aDictionary.
+	Tags are expressed under a key-value form"
+
+	^ self
+		formatGauge: aGaugeName
+		value: aValue
+		rate: 1
+		withTags: aDictionary
 ]
 
 { #category : #format }
@@ -67,6 +159,33 @@ StatsDClientBase >> formatSet: aSetName value: aValue rate: aRate [
 	^self format: aSetName value: aValue asString rate: aRate type: 's'
 ]
 
+{ #category : #Tags }
+StatsDClientBase >> formatSet: aSetName value: aValue rate: aRate withTags: aDictionary [
+	"Adding tags to the statistics generation
+	Argument added : aDictionary.
+	Tags are expressed under a key-value form"
+
+	^ self
+		format: aSetName
+		value: aValue asString
+		rate: aRate
+		type: 's'
+		withTags: aDictionary
+]
+
+{ #category : #Tags }
+StatsDClientBase >> formatSet: aSetName value: aValue withTags: aDictionary [
+	"Adding tags to the statistics generation
+	Argument added : aDictionary.
+	Tags are expressed under a key-value form"
+
+	^ self
+		formatSet: aSetName
+		value: aValue
+		rate: 1
+		withTags: aDictionary
+]
+
 { #category : #format }
 StatsDClientBase >> formatTimer: aTimerName value: aValue [
 	^self formatTimer: aTimerName value: aValue rate: 1
@@ -75,6 +194,33 @@ StatsDClientBase >> formatTimer: aTimerName value: aValue [
 { #category : #format }
 StatsDClientBase >> formatTimer: aTimerName value: aValue rate: aRate [
 	^self format: aTimerName value: aValue asString rate: aRate type: 'ms'
+]
+
+{ #category : #Tags }
+StatsDClientBase >> formatTimer: aTimerName value: aValue rate: aRate withTags: aDictionary [
+	"Adding tags to the statistics generation
+	Argument added : aDictionary.
+	Tags are expressed under a key-value form"
+
+	^ self
+		format: aTimerName
+		value: aValue asString
+		rate: aRate
+		type: 'ms'
+		withTags: aDictionary
+]
+
+{ #category : #Tags }
+StatsDClientBase >> formatTimer: aTimerName value: aValue withTags: aDictionary [
+	"Adding tags to the statistics generation
+	Argument added : aDictionary.
+	Tags are expressed under a key-value form"
+
+	^ self
+		formatTimer: aTimerName
+		value: aValue
+		rate: 1
+		withTags: aDictionary
 ]
 
 { #category : #'as yet unclassified' }
@@ -98,9 +244,38 @@ StatsDClientBase >> increment: aName by: aCount rate: aRate [
 		self sendData: (self formatCounter: aName value: aCount rate: aRate)]
 ]
 
+{ #category : #Tags }
+StatsDClientBase >> increment: aName by: aCount rate: aRate withTags: aDictionary [
+	"Adding tags to the statistics generation
+	Argument added : aDictionary.
+	Tags are expressed under a key-value form"
+
+	(self forwardEvent: aRate)
+		ifTrue: [ self
+				sendData:
+					(self
+						formatCounter: aName
+						value: aCount
+						rate: aRate
+						withTags: aDictionary) ]
+]
+
 { #category : #api }
 StatsDClientBase >> increment: aName rate: aRate [
 	^self increment: aName by: 1 rate: aRate.
+]
+
+{ #category : #Tags }
+StatsDClientBase >> increment: aName rate: aRate withTags: aDictionary [
+	"Adding tags to the statistics generation
+	Argument added : aDictionary.
+	Tags are expressed under a key-value form"
+
+	^ self
+		increment: aName
+		by: 1
+		rate: aRate
+		withTags: aDictionary
 ]
 
 { #category : #'as yet unclassified' }
